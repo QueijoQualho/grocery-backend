@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MysqlConfigService } from './config/mysql.config.service';
+import { PostgresConfigService } from './config/postgres.config.service';
 import { AuthModule } from './auth/auth.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionFilter } from './filters/all-errors.filter';
 import { ProductModule } from './product/product.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -14,11 +15,12 @@ import { ProductModule } from './product/product.module';
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
-      useClass: MysqlConfigService,
-      inject: [MysqlConfigService],
+      useClass: PostgresConfigService,
+      inject: [PostgresConfigService],
     }),
     UserModule,
     AuthModule,
+    CategoryModule,
     ProductModule,
   ],
   providers: [

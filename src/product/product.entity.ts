@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ProdutoImagemEntity } from './product-image.entity';
+import { CategoryEntity } from '../category/category.entity';
 
 @Entity('products')
 export class ProductEntity {
@@ -34,6 +36,13 @@ export class ProductEntity {
     eager: true,
   })
   images: ProdutoImagemEntity[];
+
+  @ManyToOne(() => CategoryEntity, (c) => c.products, {
+    orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  category: CategoryEntity;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;
