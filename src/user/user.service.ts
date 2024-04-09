@@ -33,6 +33,8 @@ export class UserService {
   async findOne(id: number) {
     const user = await this.userRepository.findOneBy({ id });
 
+    if (!user) throw new NotFoundException('O Usuario não foi encontrado.');
+
     return user;
   }
 
@@ -46,10 +48,19 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    await this.userRepository.update(id, updateUserDto);
+    const user = await this.userRepository.findOneBy({ id });
+
+    if (!user) throw new NotFoundException('Usuário não encontrado.');
+
+    Object.assign(user, updateUserDto);
+
+    return this.userRepository.save(user);
   }
 
   async remove(id: number) {
-    await this.userRepository.delete(id);
+    const result = await this.userRepository.delete(id);
+
+    if (!result.affected)
+      throw new NotFoundException('O usuário não foi encontrado.');
   }
 }

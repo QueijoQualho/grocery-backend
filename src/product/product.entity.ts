@@ -8,13 +8,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ProdutoImagemEntity } from './product-image.entity';
+import { ProductImageEntity } from './product-image.entity';
 import { CategoryEntity } from '../category/category.entity';
 
 @Entity('products')
 export class ProductEntity {
   @PrimaryGeneratedColumn('increment')
-  id: string;
+  id: number;
 
   @Column({ name: 'name', length: 150, nullable: false })
   name: string;
@@ -22,20 +22,23 @@ export class ProductEntity {
   @Column({ name: 'amount', length: 50, nullable: false })
   amount: string;
 
-  @Column({ name: 'price', nullable: false })
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
   price: number;
 
   @Column({ name: 'available_quantity', nullable: false })
   availableQuantity: number;
 
-  @Column({ name: 'product_detail', length: 150, nullable: false })
+  @Column({ name: 'product_detail', length: 255, nullable: false })
   productDetail: string;
 
-  @OneToMany(() => ProdutoImagemEntity, (p) => p.product, {
+  @Column({ name: 'brand', length: 150, nullable: false })
+  brand: string;
+
+  @OneToMany(() => ProductImageEntity, (p) => p.product, {
     cascade: true,
     eager: true,
   })
-  images: ProdutoImagemEntity[];
+  images: ProductImageEntity[];
 
   @ManyToOne(() => CategoryEntity, (c) => c.products, {
     orphanedRowAction: 'delete',

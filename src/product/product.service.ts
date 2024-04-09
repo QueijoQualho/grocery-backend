@@ -9,26 +9,34 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class ProductService {
   constructor(
     @InjectRepository(ProductEntity)
-    private productEntity: Repository<ProductEntity>,
+    private productRepository: Repository<ProductEntity>,
   ) {}
 
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  async create(createProductDto: CreateProductDto) {
+    const userEntity = new ProductEntity();
+    Object.assign(userEntity, createProductDto);
+    return await this.productRepository.save(userEntity);
   }
 
-  findAll() {
-    return `This action returns all product`;
+  async findAll() {
+    const products = await this.productRepository.find();
+
+    return products;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: number) {
+    const products = await this.productRepository.findOneBy({ id });
+
+    if (!products) throw new Error('Product não foi encontrado');
+
+    return products;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    return;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} product`;
   }
 }

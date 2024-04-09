@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ProductEntity } from './product.entity';
 
 @Entity('product_image')
-export class ProdutoImagemEntity {
+export class ProductImageEntity {
   @PrimaryGeneratedColumn('increment')
   id: string;
 
