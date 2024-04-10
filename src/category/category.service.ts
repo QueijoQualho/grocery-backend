@@ -20,14 +20,20 @@ export class CategoryService {
     return this.categoryRepository.save(categoryEntity);
   }
 
+  async findOne(id: number) {
+    const category = await this.categoryRepository.findOneBy({ id });
+
+    if (!category) throw new NotFoundException('Categoria não encontrada');
+
+    return category;
+  }
+
   async findAll() {
     return await this.categoryRepository.find();
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    const category = await this.categoryRepository.findOneBy({ id });
-
-    if (!category) throw new NotFoundException('Categoria não encontrada');
+    const category = await this.findOne(id);
 
     Object.assign(category, updateCategoryDto);
 

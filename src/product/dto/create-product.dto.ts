@@ -10,7 +10,6 @@ import {
 } from 'class-validator';
 import { ProductEntity } from '../product.entity';
 import { Type } from 'class-transformer';
-import { CreateCategoryDto } from 'src/category/dto/create-category.dto';
 
 export class ImageProductDto {
   id: number;
@@ -53,7 +52,6 @@ export class CreateProductDto {
   @Type(() => ImageProductDto)
   images: ImageProductDto[];
 
-  @ValidateNested()
-  @IsNotEmpty({ message: 'Categoria não pode estar vazia' })
-  category: CreateCategoryDto;
+  @IsInt()
+  categoryId: number;
 }

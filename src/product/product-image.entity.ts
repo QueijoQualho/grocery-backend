@@ -4,7 +4,7 @@ import { ProductEntity } from './product.entity';
 @Entity('product_image')
 export class ProductImageEntity {
   @PrimaryGeneratedColumn('increment')
-  id: string;
+  id: number;
 
   @Column({ name: 'url', length: 100, nullable: false })
   url: string;
