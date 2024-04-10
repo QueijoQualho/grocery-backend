@@ -1,9 +1,9 @@
 import {
   ArrayMinSize,
   IsArray,
-  IsDecimal,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsString,
   IsUrl,
   ValidateNested,
@@ -30,7 +30,7 @@ export class CreateProductDto {
   @IsNotEmpty({ message: 'Quantidade não pode estar vazia' })
   amount: string;
 
-  @IsDecimal()
+  @IsNumber()
   @IsNotEmpty({ message: 'Preço não pode estar vazio' })
   price: number;
 

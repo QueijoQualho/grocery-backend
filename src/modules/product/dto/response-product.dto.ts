@@ -1,5 +1,3 @@
-import { CategoryResponseDto } from 'src/modules/category/dto/response-category.dto';
-
 export class ProductResponseDto {
   constructor(
     readonly id: number,
@@ -16,4 +14,9 @@ export class ProductResponseDto {
 export class ImageProductResponseDto {
   id: number;
   url: string;
+}
+
+export class CategoryResponseDto {
+  name: string;
+  image: string;
 }

@@ -1,0 +1,205 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Nest-api",
+    "dateExported": "2024-04-10T20:57:01.170Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "e1cc9273-d3c5-4fa5-b76d-b0f680e1f851",
+            "name": "Produtos",
+            "containerId": "",
+            "created": "2024-04-09T01:50:54.638Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "5876e1a5-8994-4aad-85ac-a81bdf100e46",
+            "name": "Users",
+            "containerId": "",
+            "created": "2024-04-10T03:36:55.273Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "8f137f2a-79c6-4a53-ae1c-e1d8352bf2da",
+            "name": "Categoria",
+            "containerId": "",
+            "created": "2024-04-10T03:45:18.680Z",
+            "sortNum": 30000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "6047b9bb-290a-448e-8519-112549ee671e",
+            "colId": "c4f5c9ac-4c54-4e67-bf81-3a0e464e6926",
+            "containerId": "5876e1a5-8994-4aad-85ac-a81bdf100e46",
+            "name": "CriarUser",
+            "url": "localhost:3000/user",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-04-06T23:36:39.656Z",
+            "modified": "2024-04-10T04:03:41.013Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "bac19e02-9297-484a-957d-420c99d34388",
+            "colId": "c4f5c9ac-4c54-4e67-bf81-3a0e464e6926",
+            "containerId": "e1cc9273-d3c5-4fa5-b76d-b0f680e1f851",
+            "name": "PegarProdutos",
+            "url": "localhost:3000/product",
+            "method": "GET",
+            "sortNum": 15000,
+            "created": "2024-04-10T03:36:19.189Z",
+            "modified": "2024-04-10T03:36:25.527Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "67d09261-cc24-4922-9463-b4c0cf3e8ace",
+            "colId": "c4f5c9ac-4c54-4e67-bf81-3a0e464e6926",
+            "containerId": "e1cc9273-d3c5-4fa5-b76d-b0f680e1f851",
+            "name": "PegarProdutosPorID",
+            "url": "localhost:3000/product/4",
+            "method": "GET",
+            "sortNum": 22500,
+            "created": "2024-04-10T04:12:43.113Z",
+            "modified": "2024-04-10T04:13:09.945Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "f5b4fd7a-6ef9-45ad-84c6-0d12ab878d9d",
+            "colId": "c4f5c9ac-4c54-4e67-bf81-3a0e464e6926",
+            "containerId": "e1cc9273-d3c5-4fa5-b76d-b0f680e1f851",
+            "name": "CriarProduto",
+            "url": "localhost:3000/product",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-04-09T01:51:11.404Z",
+            "modified": "2024-04-10T13:42:31.712Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Smartphone\",\n  \"amount\": \"1\",\n  \"price\": 123456.20,\n  \"availableQuantity\": 10,\n  \"productDetail\": \"Descrição do smartphone\",\n  \"brand\": \"Marca do smartphone\",\n  \"images\": [\n    {\n      \"url\": \"https://example.com/smartphone-image.jpg\"\n    }\n  ],\n  \"categoryId\": 12\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "8827160d-8560-4c4b-9f16-428a354e6d39",
+            "colId": "c4f5c9ac-4c54-4e67-bf81-3a0e464e6926",
+            "containerId": "8f137f2a-79c6-4a53-ae1c-e1d8352bf2da",
+            "name": "PegarCategorias",
+            "url": "localhost:3000/category",
+            "method": "GET",
+            "sortNum": 35000,
+            "created": "2024-04-10T03:46:16.041Z",
+            "modified": "2024-04-10T03:48:45.474Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "78eb4d48-59ea-4213-a1ca-e9bf3a503ac4",
+            "colId": "c4f5c9ac-4c54-4e67-bf81-3a0e464e6926",
+            "containerId": "e1cc9273-d3c5-4fa5-b76d-b0f680e1f851",
+            "name": "UpdateProduto",
+            "url": "localhost:3000/product/38",
+            "method": "PATCH",
+            "sortNum": 40000,
+            "created": "2024-04-10T03:37:49.995Z",
+            "modified": "2024-04-10T14:38:08.382Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"amount\": \"asdasd\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "96352af9-8472-4aeb-a4f2-5500291f3ca3",
+            "colId": "c4f5c9ac-4c54-4e67-bf81-3a0e464e6926",
+            "containerId": "e1cc9273-d3c5-4fa5-b76d-b0f680e1f851",
+            "name": "DeletarProduto",
+            "url": "localhost:3000/product/38",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2024-04-10T03:37:12.368Z",
+            "modified": "2024-04-10T14:38:17.282Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "d5200c9d-5f24-4d49-924b-4603cc4e030a",
+            "colId": "c4f5c9ac-4c54-4e67-bf81-3a0e464e6926",
+            "containerId": "8f137f2a-79c6-4a53-ae1c-e1d8352bf2da",
+            "name": "PegarCategoriasPorID",
+            "url": "localhost:3000/category/6",
+            "method": "GET",
+            "sortNum": 52500,
+            "created": "2024-04-10T04:14:29.555Z",
+            "modified": "2024-04-10T04:18:54.176Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "d35db4e8-aec1-44c8-a979-5ca996414134",
+            "colId": "c4f5c9ac-4c54-4e67-bf81-3a0e464e6926",
+            "containerId": "8f137f2a-79c6-4a53-ae1c-e1d8352bf2da",
+            "name": "CriarCategoria",
+            "url": "localhost:3000/category",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2024-04-10T03:45:31.133Z",
+            "modified": "2024-04-10T13:11:37.789Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"test\",\n  \"image\": \"https://teams.microsoft.com/v2/\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "ad4d9f9f-6160-4123-a264-bebcdb9131cf",
+            "colId": "c4f5c9ac-4c54-4e67-bf81-3a0e464e6926",
+            "containerId": "8f137f2a-79c6-4a53-ae1c-e1d8352bf2da",
+            "name": "UpdateCategoria",
+            "url": "localhost:3000/category/6",
+            "method": "PATCH",
+            "sortNum": 80000,
+            "created": "2024-04-10T04:11:33.540Z",
+            "modified": "2024-04-10T04:12:04.987Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"fds\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "55fe5ed9-d509-474d-88e9-8a4672720b30",
+            "colId": "c4f5c9ac-4c54-4e67-bf81-3a0e464e6926",
+            "containerId": "8f137f2a-79c6-4a53-ae1c-e1d8352bf2da",
+            "name": "DeletarCategoria",
+            "url": "localhost:3000/category/7",
+            "method": "DELETE",
+            "sortNum": 100000,
+            "created": "2024-04-10T04:13:39.318Z",
+            "modified": "2024-04-10T04:14:09.182Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}

@@ -14,7 +14,7 @@ export class CategoryEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ name: 'name', length: 150, nullable: false })
+  @Column({ name: 'name', length: 150, nullable: false, unique: true })
   name: string;
 
   @Column({ name: 'image', length: 255, nullable: false })

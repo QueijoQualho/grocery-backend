@@ -19,24 +19,35 @@ export class ProductService {
     const productEntity = new ProductEntity();
     Object.assign(productEntity, createProductDto);
 
-    const category = await this.categoryService.findOne(
-      createProductDto.categoryId,
-    );
-    productEntity.category = category;
+    let categoryData = null;
+    if (createProductDto.categoryId) {
+      const category = await this.categoryService.findOne(
+        createProductDto.categoryId,
+      );
+      productEntity.category = category;
+      categoryData = {
+        name: category.name,
+        image: category.image,
+      };
+    }
+
     await this.productRepository.save(productEntity);
 
-    const response: ProductResponseDto = new ProductResponseDto(
-      productEntity.id,
-      productEntity.name,
-      productEntity.price,
-      productEntity.availableQuantity,
-      productEntity.productDetail,
-      productEntity.brand,
-      productEntity.images.map((image) => ({ id: image.id, url: image.url })),
-      { name: category.name, image: category.image },
-    );
+    const responseData: ProductResponseDto = {
+      id: productEntity.id,
+      name: productEntity.name,
+      price: productEntity.price,
+      availableQuantity: productEntity.availableQuantity,
+      productDetail: productEntity.productDetail,
+      brand: productEntity.brand,
+      images: productEntity.images.map((image) => ({
+        id: image.id,
+        url: image.url,
+      })),
+      category: categoryData,
+    };
 
-    return response;
+    return responseData;
   }
 
   async findAll() {
@@ -48,13 +59,19 @@ export class ProductService {
   async findOne(id: number) {
     const products = await this.productRepository.findOneBy({ id });
 
-    if (!products) throw new NotFoundException('Product não foi encontrado');
+    if (!products) throw new NotFoundException('Produto não foi encontrado');
 
     return products;
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
-    return;
+    const product = await this.findOne(id);
+
+    if (!product) throw new NotFoundException('Produto nao encontrado');
+
+    Object.assign(product, updateProductDto);
+
+    return this.productRepository.save(product);
   }
 
   async remove(id: number) {

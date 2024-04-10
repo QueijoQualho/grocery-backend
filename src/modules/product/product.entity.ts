@@ -22,7 +22,13 @@ export class ProductEntity {
   @Column({ name: 'amount', length: 50, nullable: false })
   amount: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
+  @Column({
+    name: 'price',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: false,
+  })
   price: number;
 
   @Column({ name: 'available_quantity', nullable: false })
@@ -41,7 +47,6 @@ export class ProductEntity {
   images: ProductImageEntity[];
 
   @ManyToOne(() => CategoryEntity, (c) => c.products, {
-    orphanedRowAction: 'delete',
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
