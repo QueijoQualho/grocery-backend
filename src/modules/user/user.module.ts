@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
-import { UniqueEmail } from './validator/unique-email.validator';
+import { UniqueEmail } from './decorator/unique-email.validator';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],

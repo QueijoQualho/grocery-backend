@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module';
+import { UserModule } from './modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfigService } from './config/postgres.config.service';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionFilter } from './filters/all-errors.filter';
-import { ProductModule } from './product/product.module';
-import { CategoryModule } from './category/category.module';
+import { ProductModule } from './modules/product/product.module';
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
   imports: [

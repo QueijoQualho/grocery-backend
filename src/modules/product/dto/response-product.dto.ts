@@ -1,4 +1,4 @@
-import { CategoryResponseDto } from 'src/category/dto/response-category.dto';
+import { CategoryResponseDto } from 'src/modules/category/dto/response-category.dto';
 
 export class ProductResponseDto {
   constructor(
