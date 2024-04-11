@@ -16,7 +16,13 @@ export class OrderEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ name: 'total_value', nullable: false })
+  @Column({
+    name: 'total_value',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: false,
+  })
   totalValue: number;
 
   @ManyToOne(() => UserEntity, (u) => u.orders)

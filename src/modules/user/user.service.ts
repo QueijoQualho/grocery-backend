@@ -4,16 +4,19 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly productService: ProductService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     const userEntity = new UserEntity();
+    userEntity.favorites = [];
 
     Object.assign(userEntity, createUserDto);
 
@@ -42,6 +45,34 @@ export class UserService {
     const checkEmail = await this.userRepository.findOneBy({ email });
 
     return checkEmail;
+  }
+
+  async addToFavorites(userId: number, productId: number) {
+    const user = await this.findOne(userId);
+
+    const product = await this.productService.findOne(productId);
+
+    if (!user.favorites) {
+      user.favorites = [];
+    }
+
+    if (!user.favorites.some((favorite) => favorite.id === productId)) {
+      user.favorites.push(product);
+      await this.userRepository.save(user);
+    }
+
+    return { message: 'Produto adicionado aos favoritos com sucesso' };
+  }
+
+  async getUserFavorites(userId: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['favorites'],
+    });
+
+    if (!user) throw new NotFoundException('Usuário não encontrado.');
+
+    return user.favorites;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

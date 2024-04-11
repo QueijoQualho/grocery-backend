@@ -69,8 +69,8 @@ export class OrderService {
 
       const orderProductsEntity = new OrderProductEntity();
 
-      orderProductsEntity.product = product!;
-      orderProductsEntity.sellingPrice = product!.price;
+      orderProductsEntity.product = product;
+      orderProductsEntity.sellingPrice = +product.price;
 
       orderProductsEntity.quantity = item.quantity;
       orderProductsEntity.product.availableQuantity -= item.quantity;

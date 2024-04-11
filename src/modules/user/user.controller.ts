@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -21,6 +22,14 @@ export class UserController {
     return await this.userService.create(createUserDto);
   }
 
+  @Post('favorites')
+  async addToFavorite(
+    @Query('userId') userId: string,
+    @Query('productId') productId: string,
+  ) {
+    return await this.userService.addToFavorites(+userId, +productId);
+  }
+
   @Get()
   async findAll() {
     return await this.userService.findAll();
@@ -33,6 +42,11 @@ export class UserController {
       throw new NotFoundException('Usuario não foi encontrado');
     }
     return user;
+  }
+
+  @Get('favorites')
+  async addToFavorites(@Query('userId') userId: string) {
+    return this.userService.getUserFavorites(+userId);
   }
 
   @Patch(':id')
