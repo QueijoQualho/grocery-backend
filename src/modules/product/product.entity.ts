@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { ProductImageEntity } from './product-image.entity';
 import { CategoryEntity } from '../category/category.entity';
+import { OrderProductEntity } from '../order/order-product.entity';
 
 @Entity('products')
 export class ProductEntity {
@@ -46,11 +47,11 @@ export class ProductEntity {
   })
   images: ProductImageEntity[];
 
-  @ManyToOne(() => CategoryEntity, (c) => c.products, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @ManyToOne(() => CategoryEntity, (c) => c.products)
   category: CategoryEntity;
+
+  @OneToMany(() => OrderProductEntity, (o) => o.product)
+  orderProducts: OrderProductEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;

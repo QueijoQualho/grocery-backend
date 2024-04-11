@@ -31,9 +31,6 @@ export class CategoryService {
   async findByName(name: string) {
     const category = await this.categoryRepository.findOne({ where: { name } });
 
-    if (category === null)
-      throw new NotFoundException('O email não foi encontrado.');
-
     return category;
   }
 

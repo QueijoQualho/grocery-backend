@@ -11,7 +11,7 @@ import {
 import { ProductEntity } from '../product.entity';
 import { Type } from 'class-transformer';
 
-export class ImageProductDto {
+class ImageProductDto {
   id: number;
 
   @IsUrl({}, { message: 'URL para imagem produto inválida' })

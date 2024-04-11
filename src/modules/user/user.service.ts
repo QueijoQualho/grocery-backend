@@ -41,9 +41,6 @@ export class UserService {
   async findByEmail(email: string) {
     const checkEmail = await this.userRepository.findOneBy({ email });
 
-    if (checkEmail === null)
-      throw new NotFoundException('O email não foi encontrado.');
-
     return checkEmail;
   }
 

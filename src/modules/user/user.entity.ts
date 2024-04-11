@@ -3,9 +3,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { OrderEntity } from '../order/order.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -18,8 +20,20 @@ export class UserEntity {
   @Column({ name: 'email', length: 70, nullable: false, unique: true })
   email: string;
 
-  @Column({ name: 'senha', length: 255, nullable: false })
-  senha: string;
+  @Column({ name: 'password', length: 255, nullable: false })
+  password: string;
+
+  @Column({ name: 'phone', length: 20, nullable: false })
+  phone: string;
+
+  @Column({ name: 'state', length: 100, nullable: false })
+  state: string;
+
+  @Column({ name: 'city', length: 100, nullable: false })
+  city: string;
+
+  @OneToMany(() => OrderEntity, (p) => p.user)
+  orders: OrderEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;

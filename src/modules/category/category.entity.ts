@@ -21,8 +21,7 @@ export class CategoryEntity {
   image: string;
 
   @OneToMany(() => ProductEntity, (p) => p.category, {
-    cascade: true,
-    eager: true,
+    cascade: ['update'],
   })
   products: ProductEntity[];
 

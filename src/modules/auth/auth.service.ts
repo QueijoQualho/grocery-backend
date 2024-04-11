@@ -9,19 +9,22 @@ export class AuthService {
   constructor(private readonly userService: UserService) {}
 
   async singUp(singUpDTO: SignUpDto) {
-    const { username, email, senha } = singUpDTO;
+    const { username, email, password, phone, state, city } = singUpDTO;
 
-    const hashPassword = await bcrypt.hash(senha, 10);
+    const hashPassword = await bcrypt.hash(password, 10);
 
     this.userService.create({
       username,
       email,
-      senha: hashPassword,
+      password: hashPassword,
+      phone,
+      state,
+      city,
     });
   }
 
   async login(loginDTO: LoginDto) {
-    const { email, senha } = loginDTO;
+    const { email, password } = loginDTO;
 
     const user = await this.userService.find(email);
 
@@ -29,7 +32,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const isPasswordMatch = await bcrypt.compare(senha, user.senha);
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Invalid email or password');

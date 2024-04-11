@@ -11,12 +11,12 @@ export class ProductResponseDto {
   ) {}
 }
 
-export class ImageProductResponseDto {
+class ImageProductResponseDto {
   id: number;
   url: string;
 }
 
-export class CategoryResponseDto {
+class CategoryResponseDto {
   name: string;
   image: string;
 }
