@@ -9,15 +9,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { HashPipe } from '../../resources/pipes/hash.pipe';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  /*   @Post()
   async create(
     @Body() createUserDto: CreateUserDto,
     @Body('password', HashPipe) password_hash: string,
@@ -28,7 +26,7 @@ export class UserController {
       ...userData,
       password: password_hash,
     });
-  }
+  } */
 
   @Post('favorites')
   async addToFavorite(
