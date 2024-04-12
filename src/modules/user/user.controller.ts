@@ -6,20 +6,28 @@ import {
   Patch,
   Param,
   Delete,
-  NotFoundException,
   Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { HashPipe } from '../../resources/pipes/hash.pipe';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    return await this.userService.create(createUserDto);
+  async create(
+    @Body() createUserDto: CreateUserDto,
+    @Body('password', HashPipe) password_hash: string,
+  ) {
+    const { password, ...userData } = createUserDto;
+
+    return await this.userService.create({
+      ...userData,
+      password: password_hash,
+    });
   }
 
   @Post('favorites')
@@ -38,9 +46,7 @@ export class UserController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const user = await this.userService.findOne(+id);
-    if (!user) {
-      throw new NotFoundException('Usuario não foi encontrado');
-    }
+
     return user;
   }
 

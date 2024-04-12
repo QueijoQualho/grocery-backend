@@ -23,6 +23,8 @@ export class CategoryService {
   async findOne(id: number) {
     const category = await this.categoryRepository.findOneBy({ id });
 
+    if (!category) throw new NotFoundException('Categoria não foi encontrada');
+
     return category;
   }
 
