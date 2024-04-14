@@ -3,6 +3,8 @@ import { SignUpDto } from './dto/singup.dto';
 import { UserService } from 'src/modules/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
+import { UserPayload } from './payload/user-payload';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,22 +29,23 @@ export class AuthService {
   }
 
   async singUp(singUpDTO: SignUpDto) {
-    const { username, email, password, phone, state, city } = singUpDTO;
-
-    this.userService.create({
-      username,
-      email,
-      password,
-      phone,
-      state,
-      city,
-    });
+    return this.userService.create(singUpDTO);
   }
 
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
-    return {
-      access_token: this.jwtService.sign(payload),
+  async login(loginDTO: LoginDto) {
+    const user = await this.userService.findByEmail(loginDTO.email);
+
+    const payload: UserPayload = {
+      sub: user.id,
+      email: user.email,
+      username: user.username,
     };
+
+    return await this.generateJwtToken(payload);
+  }
+
+  async generateJwtToken(payload: UserPayload): Promise<string> {
+    const token = this.jwtService.sign(payload);
+    return token;
   }
 }
