@@ -10,26 +10,32 @@ import {
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Role } from '../user/enum/role.enum';
+import { Public, Roles } from '../auth/decorator/public.decorator';
 
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @Roles(Role.Admin)
   @Post()
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoryService.create(createCategoryDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.categoryService.findAll();
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.categoryService.findOne(+id);
   }
 
+  @Roles(Role.Admin)
   @Patch(':id')
   update(
     @Param('id') id: string,

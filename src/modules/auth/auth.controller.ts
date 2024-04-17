@@ -11,7 +11,8 @@ import { SignUpDto } from './dto/singup.dto';
 import { HashPipe } from '../../resources/pipes/hash.pipe';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginDto } from './dto/login.dto';
-import { Public } from 'src/modules/auth/decorator/public.decorator';
+import { Public, Roles } from 'src/modules/auth/decorator/public.decorator';
+import { Role } from '../user/enum/role.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -43,6 +44,7 @@ export class AuthController {
     };
   }
 
+  @Roles(Role.User)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;

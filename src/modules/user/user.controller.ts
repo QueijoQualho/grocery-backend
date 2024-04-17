@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Roles } from '../auth/decorator/public.decorator';
+import { Role } from './enum/role.enum';
 
 @Controller('user')
 export class UserController {
@@ -28,6 +30,7 @@ export class UserController {
     });
   } */
 
+  @Roles(Role.User, Role.Admin)
   @Post('favorites')
   async addToFavorite(
     @Query('userId') userId: string,
@@ -36,11 +39,13 @@ export class UserController {
     return await this.userService.addToFavorites(+userId, +productId);
   }
 
+  @Roles(Role.Admin)
   @Get()
   async findAll() {
     return await this.userService.findAll();
   }
 
+  @Roles(Role.Admin)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const user = await this.userService.findOne(+id);
