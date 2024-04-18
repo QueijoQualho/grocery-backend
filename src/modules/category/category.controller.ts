@@ -14,7 +14,9 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Role } from '../user/enum/role.enum';
 import { Public, Roles } from '../auth/decorator/public.decorator';
 import { UserRequest } from '../auth/payload/userRequest';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Categorias')
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}

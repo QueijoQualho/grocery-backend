@@ -1,10 +1,14 @@
-import { Module } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  ConsoleLogger,
+  Module,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfigService } from './config/postgres.config.service';
 import { AuthModule } from './modules/auth/auth.module';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AllExceptionFilter } from './resources/filters/all-errors.filter';
 import { ProductModule } from './modules/product/product.module';
 import { CategoryModule } from './modules/category/category.module';
@@ -13,6 +17,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 import { JwtAuthGuard } from './modules/auth/guard/jwt.guard';
 import { RolesGuard } from './modules/auth/guard/role.guard';
+import { LoggerGlobalInterceptor } from './resources/interceptor/logger-global/logger-global.interceptor';
 
 @Module({
   imports: [
@@ -29,8 +34,8 @@ import { RolesGuard } from './modules/auth/guard/role.guard';
       }),
       isGlobal: true,
     }),
-    UserModule,
     AuthModule,
+    UserModule,
     CategoryModule,
     ProductModule,
     OrderModule,
@@ -48,6 +53,15 @@ import { RolesGuard } from './modules/auth/guard/role.guard';
       provide: APP_GUARD,
       useClass: RolesGuard,
     },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggerGlobalInterceptor,
+    },
+    ConsoleLogger,
   ],
 })
 export class AppModule {}

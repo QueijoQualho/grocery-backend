@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { SignUpDto } from './dto/singup.dto';
 import { UserService } from 'src/modules/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { UserPayload } from './payload/user-payload';
 import { LoginDto } from './dto/login.dto';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -28,8 +28,8 @@ export class AuthService {
     return null;
   }
 
-  async singUp(singUpDTO: SignUpDto) {
-    return this.userService.create(singUpDTO);
+  async singUp(createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
 
   async login(loginDTO: LoginDto) {

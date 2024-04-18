@@ -12,6 +12,7 @@ import {
 import { OrderEntity } from '../order/order.entity';
 import { ProductEntity } from '../product/product.entity';
 import { Role } from './enum/role.enum';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -24,6 +25,7 @@ export class UserEntity {
   @Column({ name: 'email', length: 70, nullable: false, unique: true })
   email: string;
 
+  @Exclude()
   @Column({ name: 'password', length: 255, nullable: false })
   password: string;
 

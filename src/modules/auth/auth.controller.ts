@@ -7,12 +7,14 @@ import {
   Get,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignUpDto } from './dto/singup.dto';
 import { HashPipe } from '../../resources/pipes/hash.pipe';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginDto } from './dto/login.dto';
 import { Public } from 'src/modules/auth/decorator/public.decorator';
+import { ApiTags } from '@nestjs/swagger';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -20,11 +22,11 @@ export class AuthController {
   @Public()
   @Post('singup')
   async create(
-    @Body() SignUpDTO: SignUpDto,
+    @Body() createUserDto: CreateUserDto,
     @Body('password', HashPipe) password_hash: string,
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...userData } = SignUpDTO;
+    const { password, ...userData } = createUserDto;
 
     return await this.authService.singUp({
       ...userData,

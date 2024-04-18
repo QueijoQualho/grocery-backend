@@ -13,7 +13,7 @@ export class ProductService {
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
     private readonly categoryService: CategoryService,
-  ) { }
+  ) {}
 
   async create(createProductDto: CreateProductDto) {
     const productEntity = new ProductEntity();
@@ -73,7 +73,9 @@ export class ProductService {
       });
     }
     if (category) {
-      query = query.andWhere('product.category = :category', { category });
+      query = query
+        .innerJoin('product.category', 'category')
+        .andWhere('category.name = :category', { category });
     }
     if (brand) {
       query = query.andWhere('product.brand = :brand', { brand });

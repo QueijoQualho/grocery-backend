@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -103,13 +104,62 @@ export class OrderService {
     });
   }
 
-  async update(id: number, updateOrderDto: UpdateOrderDto) {
-    const order = await this.orderRepository.findOneBy({ id });
+  async update(id: number, updateOrderDto: UpdateOrderDto, userId: number) {
+    const order = await this.orderRepository.findOne({
+      where: { id },
+      relations: { user: true, orderProducts: true },
+    });
 
     if (!order) throw new NotFoundException('O pedido não foi encontrado.');
 
-    Object.assign(order, updateOrderDto as OrderEntity);
+    if (order.user.id !== userId) {
+      throw new ForbiddenException(
+        'Você não tem autorização para atualizar esse pedido',
+      );
+    }
 
-    return this.orderRepository.save(order);
+    const orderProductsToUpdate = order.orderProducts;
+
+    for (const updatedProduct of updateOrderDto.products) {
+      const orderProduct = orderProductsToUpdate.find(
+        (op) => op.product.id === updatedProduct.productId,
+      );
+
+      if (!orderProduct) {
+        throw new NotFoundException(
+          `Produto com id ${updatedProduct.productId} não foi encontrado no pedido.`,
+        );
+      }
+
+      const product = await this.productRepository.findOne({
+        where: { id: updatedProduct.productId },
+      });
+
+      if (!product) {
+        throw new NotFoundException(
+          `Produto com id ${updatedProduct.productId} não foi encontrado.`,
+        );
+      }
+
+      const previousQuantity = orderProduct.quantity;
+      const newQuantity = updatedProduct.quantity;
+
+      const quantityDifference = newQuantity - previousQuantity;
+
+      if (quantityDifference > product.availableQuantity) {
+        throw new BadRequestException(
+          `A quantidade solicitada do produto com id ${product.id} é maior do que a quantidade disponível (${product.availableQuantity}).`,
+        );
+      }
+
+      orderProduct.quantity = newQuantity;
+      product.availableQuantity += quantityDifference;
+
+      await this.productRepository.save(product);
+    }
+
+    const updatedOrder = await this.orderRepository.save(order);
+
+    return updatedOrder;
   }
 }

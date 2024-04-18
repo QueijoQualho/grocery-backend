@@ -15,7 +15,9 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { Public, Roles } from '../auth/decorator/public.decorator';
 import { Role } from '../user/enum/role.enum';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Produtos')
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
@@ -26,11 +28,22 @@ export class ProductController {
     return this.productService.create(createProductDto);
   }
 
-  @Public()
+  /*   @Public()
   @Get()
   @UseInterceptors(CacheInterceptor)
   findAll() {
     return this.productService.findAll();
+  } */
+
+  @Public()
+  @Get()
+  @UseInterceptors(CacheInterceptor)
+  searchProduct(
+    @Query('search') search?: string,
+    @Query('category') category?: string,
+    @Query('brand') brand?: string,
+  ) {
+    return this.productService.searchProduct(search, category, brand);
   }
 
   @Public()
@@ -38,16 +51,6 @@ export class ProductController {
   @UseInterceptors(CacheInterceptor)
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
-  }
-
-  @Public()
-  @Get('/search')
-  searchProduct(
-    @Query('search') search?: string,
-    @Query('category') category?: string,
-    @Query('brand') brand?: string,
-  ) {
-    return this.productService.searchProduct(search, category, brand);
   }
 
   @Roles(Role.Admin)
