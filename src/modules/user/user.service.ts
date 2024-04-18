@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
@@ -59,9 +63,10 @@ export class UserService {
     if (!user.favorites.some((favorite) => favorite.id === productId)) {
       user.favorites.push(product);
       await this.userRepository.save(user);
+      return { message: 'Produto adicionado aos favoritos com sucesso' };
+    } else {
+      throw new BadRequestException('Produto ja esta nos favoritos');
     }
-
-    return { message: 'Produto adicionado aos favoritos com sucesso' };
   }
 
   async getUserFavorites(userId: number) {
@@ -70,7 +75,7 @@ export class UserService {
       relations: ['favorites'],
     });
 
-    if (!user) throw new NotFoundException('Usuário não encontrado.');
+    if (!user) throw new NotFoundException('Usuario não tem favoritos');
 
     return user.favorites;
   }

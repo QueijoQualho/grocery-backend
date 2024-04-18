@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { OrderEntity } from '../order/order.entity';
 import { ProductEntity } from '../product/product.entity';
+import { Role } from './enum/role.enum';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -34,6 +35,9 @@ export class UserEntity {
 
   @Column({ name: 'city', length: 100, nullable: false })
   city: string;
+
+  @Column({ name: 'role', type: 'enum', enum: Role, default: Role.User })
+  roles: Role[];
 
   @ManyToMany(() => ProductEntity, { eager: true })
   @JoinTable({ name: 'favorites' })

@@ -1,28 +1,23 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Query,
-  Param,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Req } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { UserRequest } from '../auth/payload/userRequest';
 
 @Controller('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  async create(@Query('userId') userId: string, @Body() data: CreateOrderDto) {
+  async create(@Req() req: UserRequest, @Body() data: CreateOrderDto) {
+    const userId = req.user.sub;
     const res = await this.orderService.create(+userId, data);
     return res;
   }
 
   @Get()
-  async find(@Query('userId') userId: string) {
+  async find(@Req() req: UserRequest) {
+    const userId = req.user.sub;
     const orders = await this.orderService.find(+userId);
     return orders;
   }

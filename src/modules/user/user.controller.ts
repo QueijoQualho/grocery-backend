@@ -7,17 +7,19 @@ import {
   Param,
   Delete,
   Query,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { HashPipe } from '../../resources/pipes/hash.pipe';
+import { Roles } from '../auth/decorator/public.decorator';
+import { Role } from './enum/role.enum';
+import { UserRequest } from '../auth/payload/userRequest';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  /*   @Post()
   async create(
     @Body() createUserDto: CreateUserDto,
     @Body('password', HashPipe) password_hash: string,
@@ -28,21 +30,30 @@ export class UserController {
       ...userData,
       password: password_hash,
     });
-  }
+  } */
 
   @Post('favorites')
   async addToFavorite(
-    @Query('userId') userId: string,
+    @Req() req: UserRequest,
     @Query('productId') productId: string,
   ) {
+    const userId = req.user.sub;
     return await this.userService.addToFavorites(+userId, +productId);
   }
 
+  @Get('favorites')
+  async getFavorites(@Req() req: UserRequest) {
+    const userId = req.user.sub;
+    return this.userService.getUserFavorites(+userId);
+  }
+
+  @Roles(Role.Admin)
   @Get()
   async findAll() {
     return await this.userService.findAll();
   }
 
+  @Roles(Role.Admin)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const user = await this.userService.findOne(+id);
@@ -50,18 +61,15 @@ export class UserController {
     return user;
   }
 
-  @Get('favorites')
-  async addToFavorites(@Query('userId') userId: string) {
-    return this.userService.getUserFavorites(+userId);
+  @Patch()
+  async update(@Req() req: UserRequest, @Body() updateUserDto: UpdateUserDto) {
+    const userId = req.user.sub;
+    return await this.userService.update(+userId, updateUserDto);
   }
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return await this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return await this.userService.remove(+id);
+  @Delete()
+  async remove(@Req() req: UserRequest) {
+    const userId = req.user.sub;
+    return await this.userService.remove(+userId);
   }
 }

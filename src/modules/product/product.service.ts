@@ -13,7 +13,7 @@ export class ProductService {
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
     private readonly categoryService: CategoryService,
-  ) {}
+  ) { }
 
   async create(createProductDto: CreateProductDto) {
     const productEntity = new ProductEntity();
@@ -52,7 +52,6 @@ export class ProductService {
 
   async findAll() {
     const products = await this.productRepository.find();
-    console.log('teste');
 
     return products;
   }
@@ -63,6 +62,24 @@ export class ProductService {
     if (!products) throw new NotFoundException('Produto não foi encontrado');
 
     return products;
+  }
+
+  async searchProduct(search?: string, category?: string, brand?: string) {
+    let query = this.productRepository.createQueryBuilder('product');
+
+    if (search && search.trim() !== '') {
+      query = query.where('product.name LIKE :search', {
+        search: `%${search}%`,
+      });
+    }
+    if (category) {
+      query = query.andWhere('product.category = :category', { category });
+    }
+    if (brand) {
+      query = query.andWhere('product.brand = :brand', { brand });
+    }
+
+    return await query.getMany();
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
