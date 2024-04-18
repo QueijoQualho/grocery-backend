@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -37,6 +38,16 @@ export class ProductController {
   @UseInterceptors(CacheInterceptor)
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
+  }
+
+  @Public()
+  @Get('/search')
+  searchProduct(
+    @Query('search') search?: string,
+    @Query('category') category?: string,
+    @Query('brand') brand?: string,
+  ) {
+    return this.productService.searchProduct(search, category, brand);
   }
 
   @Roles(Role.Admin)

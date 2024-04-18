@@ -12,6 +12,7 @@ import { OrderModule } from './modules/order/order.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 import { JwtAuthGuard } from './modules/auth/guard/jwt.guard';
+import { RolesGuard } from './modules/auth/guard/role.guard';
 
 @Module({
   imports: [
@@ -42,6 +43,10 @@ import { JwtAuthGuard } from './modules/auth/guard/jwt.guard';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })
