@@ -77,7 +77,7 @@ export class CreateProductDto {
   @ApiProperty({
     isArray: true,
     description: 'Imagens do produto',
-    example: [{ url: 'https://example.com/image1.jpg', product: {} }],
+    example: [{ url: 'https://example.com/image1.jpg' }],
   })
   @ValidateNested({ each: true })
   @IsArray()

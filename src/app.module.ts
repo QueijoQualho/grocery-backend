@@ -14,7 +14,6 @@ import { ProductModule } from './modules/product/product.module';
 import { CategoryModule } from './modules/category/category.module';
 import { OrderModule } from './modules/order/order.module';
 import { CacheModule } from '@nestjs/cache-manager';
-import { redisStore } from 'cache-manager-redis-yet';
 import { JwtAuthGuard } from './modules/auth/guard/jwt.guard';
 import { RolesGuard } from './modules/auth/guard/role.guard';
 import { LoggerGlobalInterceptor } from './resources/interceptor/logger-global/logger-global.interceptor';
@@ -28,12 +27,7 @@ import { LoggerGlobalInterceptor } from './resources/interceptor/logger-global/l
       useClass: PostgresConfigService,
       inject: [PostgresConfigService],
     }),
-    CacheModule.registerAsync({
-      useFactory: async () => ({
-        store: await redisStore({ ttl: 10 * 1000 /* 10seg */ }),
-      }),
-      isGlobal: true,
-    }),
+    CacheModule.register({ isGlobal: true, ttl: 6000 }),
     AuthModule,
     UserModule,
     CategoryModule,

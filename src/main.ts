@@ -19,6 +19,7 @@ async function bootstrap() {
     .setTitle('Grocery API')
     .setDescription('API para e-commerce de produtos alimenticios')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

@@ -8,11 +8,11 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       PGDATA: /data/postgres
     volumes:
-       - postgres:/data/postgres
+      - postgres:/data/postgres
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - api-network
     restart: unless-stopped
 
   pgadmin:
@@ -25,20 +25,24 @@ services:
     depends_on:
       - postgres
     networks:
-      - postgres
+      - api-network
 
-  redis:
-    container_name: redis-cache 
-    image: redis:latest
+  nestjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - 6379:6379
-    volumes:
-      - redis:/data
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - api-network
+    restart: unless-stopped
+
 
 networks:
-  postgres:
+  api-network:
     driver: bridge
 
 volumes:
   postgres:
-  redis:
