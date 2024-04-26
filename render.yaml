@@ -1,4 +1,3 @@
 services:
   - name: my-nest-app
-    buildCommand: docker-compose build
     startCommand: docker-compose up
